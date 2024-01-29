@@ -22,7 +22,19 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  getLongestDinosaur(dinosaurs);
  *  //> { Brachiosaurus: 98.43 }
  */
-function getLongestDinosaur(dinosaurs) {}
+
+function getLongestDinosaur(dinosaurs) {
+  let longestDino = dinosaurs[0];
+  for (let dino of dinosaurs) {
+    if (dino.lengthInMeters > longestDino.lengthInMeters) {
+      longestDino = dino;
+    }
+  }
+  let lengthInFeet = longestDino.lengthInMeters * 3.281;
+  let result = {};
+  result[longestDino.name]  = lengthInFeet;
+  return result;
+}
 
 /**
  * getDinosaurDescription()

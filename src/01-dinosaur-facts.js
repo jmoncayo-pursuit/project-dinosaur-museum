@@ -23,21 +23,21 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 
-// function getLongestDinosaur(dinosaurs) {
-//   if (dinosaurs.length === 0) {
-//     return {};
-//   }
-//   let longestDino = dinosaurs[0];
-//   for(let dino of dinosaurs){
-//     if (dino.lengthInMeters > longestDino.lengthInMeters) {
-//       longestDino = dino;
-//     }
-//   }
-//   let lengthInFeet = longestDino.lengthInMeters * 3.281;
-//   let result = {};
-//   result[longestDino.name]  = lengthInFeet;
-//   return result;
-// }
+function getLongestDinosaur(dinosaurs) {
+  if (dinosaurs.length === 0) {
+    return {};
+  }
+  let longestDino = dinosaurs[0];
+  for(let dino of dinosaurs){
+    if (dino.lengthInMeters > longestDino.lengthInMeters) {
+      longestDino = dino;
+    }
+  }
+  let lengthInFeet = longestDino.lengthInMeters * 3.281;
+  let result = {};
+  result[longestDino.name]  = lengthInFeet;
+  return result;
+}
 
 // function getLongestDinosaur(dinosaurs) {
 //   if (dinosaurs.length === 0) {
@@ -52,19 +52,18 @@ const exampleDinosaurData = require("../data/dinosaurs");
 //   return result;
 // }
 
+// function getLongestDinosaur(dinosaurs) {
+//   if (dinosaurs.length === 0) {
+//     return {};
+//   }
 
-function getLongestDinosaur(dinosaurs) {
-  if (dinosaurs.length === 0) {
-    return {};
-  }
-
-  let sortedDinos = [...dinosaurs].sort((a, b) => b.lengthInMeters - a.lengthInMeters);
-  let longestDino = sortedDinos[0];
-  let lengthInFeet = longestDino.lengthInMeters * 3.281;
-  let result = {};
-  result[longestDino.name] = lengthInFeet;
-  return result;
-}
+//   let sortedDinos = [...dinosaurs].sort((a, b) => b.lengthInMeters - a.lengthInMeters);
+//   let longestDino = sortedDinos[0];
+//   let lengthInFeet = longestDino.lengthInMeters * 3.281;
+//   let result = {};
+//   result[longestDino.name] = lengthInFeet;
+//   return result;
+// }
  
 /**
  * getDinosaurDescription()
@@ -124,14 +123,61 @@ function getDinosaurDescription(dinosaurs, id) {
  *
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
+ * 
+ * to pass tests:
+ *   -should return the IDs of all dinosaurs that were alive      approximately at the given time (1 ms)
+    -should include dinosaurs with only one `mya` year 
+    -if the `mya` key is an array of one number, should allow for 1 MYA less than the amount
+    should return an empty array if the year does not match any 
+    -if the third argument is set, should replace the IDs with the value of the given key
+    -if the third argument is set, but to a key that doesn't return a value, should return the IDs (1 ms)
  */
 
-function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //   function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //     return dinosaurs
+  //         .filter(dino => {
+  //             let dinoMya = dino.mya;
+  //             if (dinoMya.length === 1) {
+  //                 return mya === dinoMya[0] || mya === dinoMya[0] - 1;
+  //             } else {
+  //                 return mya <= dinoMya[0] && mya >= dinoMya[1];
+  //             }
+  //         })
+  //         .map(dino => key && dino[key] ? dino[key] : dino.dinosaurId);
+  // }
+  
+  function getDinosaursAliveMya(dinosaurs, mya, key) {
+    let arr = []; 
+    
+    for (let dino of dinosaurs) {
+        let oneDateBool = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya);
+        let twoDatesBool = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
+        
+        if (oneDateBool) {
+          pushToArray(arr, key, dino)
+        } 
+        else if (twoDatesBool) {
+          pushToArray(arr, key, dino)
+        }
+    }
+    return arr;
+  }
+  
+  /// Helper Function
+  function pushToArray(arr, key, dino){
+    if (!key || !(key in dino)) {
+      arr.push(dino.dinosaurId);
+     } 
+    else {
+      arr.push(dino[key]);
+     }
+  }
 
-}
+
 
 module.exports = {
   getLongestDinosaur,
   getDinosaurDescription,
   getDinosaursAliveMya,
 };
+

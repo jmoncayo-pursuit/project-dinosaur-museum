@@ -23,19 +23,49 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 
+// function getLongestDinosaur(dinosaurs) {
+//   if (dinosaurs.length === 0) {
+//     return {};
+//   }
+//   let longestDino = dinosaurs[0];
+//   for(let dino of dinosaurs){
+//     if (dino.lengthInMeters > longestDino.lengthInMeters) {
+//       longestDino = dino;
+//     }
+//   }
+//   let lengthInFeet = longestDino.lengthInMeters * 3.281;
+//   let result = {};
+//   result[longestDino.name]  = lengthInFeet;
+//   return result;
+// }
+
+// function getLongestDinosaur(dinosaurs) {
+//   if (dinosaurs.length === 0) {
+//         return {};
+//       }
+//   let lengths = dinosaurs.map(dino => dino.lengthInMeters);
+//   let maxLength = Math.max(...lengths);
+//   let longestDino = dinosaurs.find(dino => dino.lengthInMeters === maxLength);
+//   let lengthInFeet = maxLength * 3.281;
+//   let result = {};
+//   result[longestDino.name] = lengthInFeet;
+//   return result;
+// }
+
+
 function getLongestDinosaur(dinosaurs) {
-  let longestDino = dinosaurs[0];
-  for (let dino of dinosaurs) {
-    if (dino.lengthInMeters > longestDino.lengthInMeters) {
-      longestDino = dino;
-    }
+  if (dinosaurs.length === 0) {
+    return {};
   }
+
+  let sortedDinos = [...dinosaurs].sort((a, b) => b.lengthInMeters - a.lengthInMeters);
+  let longestDino = sortedDinos[0];
   let lengthInFeet = longestDino.lengthInMeters * 3.281;
   let result = {};
-  result[longestDino.name]  = lengthInFeet;
+  result[longestDino.name] = lengthInFeet;
   return result;
 }
-
+ 
 /**
  * getDinosaurDescription()
  * ---------------------
@@ -49,14 +79,26 @@ function getLongestDinosaur(dinosaurs) {
  * @param {string} id - The unique identifier for the dinosaur.
  * @returns {string} A detailed description of the dinosaur.
  *
- * EXAMPLE:
+ * EXAMPLE
  *  getDinosaurDescription(dinosaurs, "U9vuZmgKwUr");
  *  //> "Xenoceratops (ZEE-no-SEH-ruh-tops)\nXenoceratops had horns and a bony frill with elaborate ornamentation of projections, knobs, and spikes. It lived in the Early Cretaceous period, over 77.5 million years ago."
  *
  *  getDinosaurDescription(dinosaurs, "incorrect-id");
  *  //> "A dinosaur with an ID of 'incorrect-id' cannot be found."
  */
-function getDinosaurDescription(dinosaurs, id) {}
+
+function getDinosaurDescription(dinosaurs, id) {
+  for(let dinoObj of dinosaurs){
+    if(dinoObj.dinosaurId === id){
+      let myaIndex = 0;
+      if(dinoObj.mya.length > 1){
+        myaIndex += 1;
+      }
+      return `${dinoObj.name} (${dinoObj.pronunciation})\n${dinoObj.info} It lived in the ${dinoObj.period} period, over ${dinoObj.mya[myaIndex]} million years ago.`
+    }
+  }
+  return `A dinosaur with an ID of '${id}' cannot be found.`;
+}
 
 /**
  * getDinosaursAliveMya()
@@ -83,7 +125,10 @@ function getDinosaurDescription(dinosaurs, id) {}
  *  getDinosaursAliveMya(dinosaurs, 65, "unknown-key");
  *  //> ["WHQcpcOj0G"]
  */
-function getDinosaursAliveMya(dinosaurs, mya, key) {}
+
+function getDinosaursAliveMya(dinosaurs, mya, key) {
+
+}
 
 module.exports = {
   getLongestDinosaur,

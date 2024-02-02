@@ -93,7 +93,7 @@ function getDinosaurDescription(dinosaurs, id) {
       if(dinoObj.mya.length > 1){
         myaIndex += 1;
       }
-      return `${dinoObj.name} (${dinoObj.pronunciation})\n${dinoObj.info} It lived in the ${dinoObj.period} period, over ${dinoObj.mya[myaIndex]} million years ago.`
+      return `${dinoObj.name} (${dinoObj.pronunciation})\n${dinoObj.info} It lived in the ${dinoObj.period} period, over ${dinoObj.mya[myaIndex]} million years ago.`;
     }
   }
   return `A dinosaur with an ID of '${id}' cannot be found.`;
@@ -133,47 +133,44 @@ function getDinosaurDescription(dinosaurs, id) {
     -if the third argument is set, but to a key that doesn't return a value, should return the IDs (1 ms)
  */
 
-  //   function getDinosaursAliveMya(dinosaurs, mya, key) {
-  //     return dinosaurs
-  //         .filter(dino => {
-  //             let dinoMya = dino.mya;
-  //             if (dinoMya.length === 1) {
-  //                 return mya === dinoMya[0] || mya === dinoMya[0] - 1;
-  //             } else {
-  //                 return mya <= dinoMya[0] && mya >= dinoMya[1];
-  //             }
-  //         })
-  //         .map(dino => key && dino[key] ? dino[key] : dino.dinosaurId);
+    function getDinosaursAliveMya(dinosaurs, mya, key) {
+      return dinosaurs;
+          .filter(dino => {
+              let dinoMya = dino.mya;
+              if (dinoMya.length === 1) {
+                  return mya === dinoMya[0] || mya === dinoMya[0] - 1;
+              } else {
+                  return mya <= dinoMya[0] && mya >= dinoMya[1];
+              }
+          })
+          .map(dino => key && dino[key] ? dino[key] : dino.dinosaurId);
+  }
+  
+  // function getDinosaursAliveMya(dinosaurs, mya, key) {
+  //   let arr = []; 
+    
+  //   for (let dino of dinosaurs) {
+  //       let oneDateBool = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya);
+  //       let twoDatesBool = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
+        
+  //       if (oneDateBool) {
+  //         pushToArray(arr, key, dino)
+  //       } 
+  //       else if (twoDatesBool) {
+  //         pushToArray(arr, key, dino)
+  //       }
+  //   }
+  //   return arr;
   // }
   
-  function getDinosaursAliveMya(dinosaurs, mya, key) {
-    let arr = []; 
-    
-    for (let dino of dinosaurs) {
-        let oneDateBool = dino.mya.length === 1 && (dino.mya[0] === mya || dino.mya[0] - 1 === mya);
-        let twoDatesBool = dino.mya.length === 2 && mya >= dino.mya[1] && mya <= dino.mya[0];
-        
-        if (oneDateBool) {
-          pushToArray(arr, key, dino)
-        } 
-        else if (twoDatesBool) {
-          pushToArray(arr, key, dino)
-        }
-    }
-    return arr;
-  }
-  
-  /// Helper Function
-  function pushToArray(arr, key, dino){
-    if (!key || !(key in dino)) {
-      arr.push(dino.dinosaurId);
-     } 
-    else {
-      arr.push(dino[key]);
-     }
-  }
-
-
+  // function pushToArray(arr, key, dino){
+  //   if (!key || !(key in dino)) {
+  //     arr.push(dino.dinosaurId);
+  //    } 
+  //   else {
+  //     arr.push(dino[key]);
+  //    }
+  // }
 
 module.exports = {
   getLongestDinosaur,

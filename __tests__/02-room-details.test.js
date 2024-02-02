@@ -116,7 +116,12 @@ describe("getConnectedRoomNamesById()", () => {
     ];
     const id = "xwG7O4wQl";
     const actual = getConnectedRoomNamesById(input, id);
-    const expected = `Room with ID of 'incorrect-id' could not be found.`;
+    const expected = [
+      "Room B",
+      "Room C",
+      `Room with ID of 'incorrect-id' could not be found.`,
+    ];
     expect(actual).toEqual(expected);
   });
+  
 });

@@ -23,40 +23,39 @@ const exampleDinosaurData = require("../data/dinosaurs");
  *  //> { Brachiosaurus: 98.43 }
  */
 
+// function getLongestDinosaur(dinosaurs) {
+//   if (dinosaurs.length === 0) {
+//     return {};
+//   }
+//   let longestDino = dinosaurs[0];
+//   for(let dino of dinosaurs){
+//     if (dino.lengthInMeters > longestDino.lengthInMeters) {
+//       longestDino = dino;
+//     }
+//   }
+//   let lengthInFeet = longestDino.lengthInMeters * 3.281;
+//   let result = {};
+//   result[longestDino.name]  = lengthInFeet;
+//   return result;
+// }
+
 function getLongestDinosaur(dinosaurs) {
   if (dinosaurs.length === 0) {
-    return {};
-  }
-  let longestDino = dinosaurs[0];
-  for(let dino of dinosaurs){
-    if (dino.lengthInMeters > longestDino.lengthInMeters) {
-      longestDino = dino;
-    }
-  }
-  let lengthInFeet = longestDino.lengthInMeters * 3.281;
+        return {};
+      }
+  let lengths = dinosaurs.map(dino => dino.lengthInMeters);
+  let maxLength = Math.max(...lengths);
+  let longestDino = dinosaurs.find(dino => dino.lengthInMeters === maxLength);
+  let lengthInFeet = maxLength * 3.281;
   let result = {};
-  result[longestDino.name]  = lengthInFeet;
+  result[longestDino.name] = lengthInFeet;
   return result;
 }
 
 // function getLongestDinosaur(dinosaurs) {
 //   if (dinosaurs.length === 0) {
-//         return {};
-//       }
-//   let lengths = dinosaurs.map(dino => dino.lengthInMeters);
-//   let maxLength = Math.max(...lengths);
-//   let longestDino = dinosaurs.find(dino => dino.lengthInMeters === maxLength);
-//   let lengthInFeet = maxLength * 3.281;
-//   let result = {};
-//   result[longestDino.name] = lengthInFeet;
-//   return result;
-// }
-
-// function getLongestDinosaur(dinosaurs) {
-//   if (dinosaurs.length === 0) {
 //     return {};
 //   }
-
 //   let sortedDinos = [...dinosaurs].sort((a, b) => b.lengthInMeters - a.lengthInMeters);
 //   let longestDino = sortedDinos[0];
 //   let lengthInFeet = longestDino.lengthInMeters * 3.281;
@@ -134,7 +133,7 @@ function getDinosaurDescription(dinosaurs, id) {
  */
 
     function getDinosaursAliveMya(dinosaurs, mya, key) {
-      return dinosaurs;
+      return dinosaurs
           .filter(dino => {
               let dinoMya = dino.mya;
               if (dinoMya.length === 1) {
@@ -143,7 +142,7 @@ function getDinosaurDescription(dinosaurs, id) {
                   return mya <= dinoMya[0] && mya >= dinoMya[1];
               }
           })
-          .map(dino => key && dino[key] ? dino[key] : dino.dinosaurId);
+         .map(dino => key && dino[key] ? dino[key] : dino.dinosaurId);
   }
   
   // function getDinosaursAliveMya(dinosaurs, mya, key) {

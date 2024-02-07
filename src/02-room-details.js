@@ -64,7 +64,6 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
     ]
  */
 
-
     function getConnectedRoomNamesById(rooms, id) {
       const room = rooms.find((room) => room.roomId === id);
     
@@ -83,7 +82,7 @@ function getRoomByDinosaurName(dinosaurs, rooms, dinosaurName) {
         return connectedRoom.name;
       });
     
-      return connectedRoomNames.length > 0 ? connectedRoomNames : [];
+      return connectedRoomNames.length > 0 ? connectedRoomNames : []; 
     }
       
     

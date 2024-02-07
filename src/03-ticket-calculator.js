@@ -132,8 +132,46 @@ const exampleTicketData = require("../data/tickets");
     purchaseTickets(tickets, purchases);
     //> "Ticket type 'discount' cannot be found."
  */
-    function purchaseTickets(ticketData, purchases) {}
-  
+
+    function purchaseTickets(ticketData, purchases) {
+      let total = 0;
+      let receipt = "Thank you for visiting the Dinosaur Museum!\n-------------------------------------------\n";
+    
+      for (let purchase of purchases) {
+        const { ticketType, entrantType, extras } = purchase;
+    
+        if (!ticketData[ticketType]) {
+          return `Ticket type '${ticketType}' cannot be found.`;
+        }
+    
+        if (!ticketData[ticketType].priceInCents[entrantType]) {
+          return `Entrant type '${entrantType}' cannot be found.`;
+        }
+    
+        let price = ticketData[ticketType].priceInCents[entrantType];
+        total += price;
+    
+        let extrasList = [];
+        for (let extra of extras) {
+          if (!ticketData.extras[extra]) {
+            return `Extra type '${extra}' cannot be found.`;
+          }
+          price += ticketData.extras[extra].priceInCents[entrantType];
+          total += ticketData.extras[extra].priceInCents[entrantType];
+          extrasList.push(extra.charAt(0).toUpperCase() + extra.slice(1) + " Access");
+        }
+    
+        receipt += `${entrantType.charAt(0).toUpperCase() + entrantType.slice(1)} ${ticketType.charAt(0).toUpperCase() + ticketType.slice(1)} Admission: $${(price / 100).toFixed(2)}`;
+        if (extrasList.length > 0) {
+          receipt += ` (${extrasList.join(", ")})`;
+        }
+        receipt += "\n";
+      }
+    
+      receipt += `-------------------------------------------\nTOTAL: $${(total / 100).toFixed(2)}`;
+    
+      return receipt;
+    }  
 
 // Do not change anything below this line.
 module.exports = {
